@@ -18,6 +18,7 @@ public class EventoService {
 	private final EventoRepository eventoRepository;
 	private final AppUserRepository appUserRepository;
 
+
 	public Evento createEvent(EventoRequest eventoRequest, String organizerUsername) {
 		AppUser organizer = findUserByUsername(organizerUsername);
 
@@ -74,7 +75,7 @@ public class EventoService {
 
 	private AppUser findUserByUsername(String username) {
 		return appUserRepository.findByUsername(username)
-			.orElseThrow(() -> new UsernameNotFoundException("Organizzatore non trovato"));
+			.orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
 	}
 
 	public List<EventoResponse> searchEvents(String titolo, String luogo) {

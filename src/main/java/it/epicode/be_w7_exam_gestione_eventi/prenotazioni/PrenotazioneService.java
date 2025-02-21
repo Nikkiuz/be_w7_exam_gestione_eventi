@@ -27,21 +27,17 @@ public class PrenotazioneService {
 		Evento evento = eventoRepository.findById(prenotazioneRequest.getEventoId())
 			.orElseThrow(() -> new EntityNotFoundException("Evento non trovato"));
 
-		// Verifica se l'utente ha già prenotato l'evento
 		if (prenotazioneRepository.existsByUtenteAndEvento(utente, evento)) {
 			throw new IllegalStateException("Hai già prenotato questo evento.");
 		}
 
-		// Verifica se ci sono posti disponibili
 		if (evento.getPostiDisponibili() <= 0) {
 			throw new IllegalStateException("Non ci sono posti disponibili per questo evento. Posti rimanenti: " + evento.getPostiDisponibili());
 		}
 
-		// Decrementa i posti disponibili
 		evento.setPostiDisponibili(evento.getPostiDisponibili() - 1);
 		eventoRepository.save(evento);
 
-		// Crea e salva la prenotazione
 		Prenotazione prenotazione = new Prenotazione();
 		prenotazione.setUtente(utente);
 		prenotazione.setEvento(evento);
@@ -49,12 +45,9 @@ public class PrenotazioneService {
 		return prenotazioneRepository.save(prenotazione);
 	}
 
-	public List<PrenotazioneResponse> getUserBookings(String username) {
-		AppUser utente = appUserRepository.findByUsername(username)
-			.orElseThrow(() -> new UsernameNotFoundException("Utente non trovato"));
+	public List<PrenotazioneResponse> getPrenotazioniUtente(AppUser user) {
 
-		// Recupera le prenotazioni dell'utente e mappa i dettagli
-		return prenotazioneRepository.findByUtente(utente).stream()
+		return prenotazioneRepository.findByUtente(user).stream()
 			.map(prenotazione -> new PrenotazioneResponse(
 				prenotazione.getId(),
 				prenotazione.getUtente().getUsername(),
@@ -68,17 +61,16 @@ public class PrenotazioneService {
 		Prenotazione prenotazione = prenotazioneRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException("Prenotazione non trovata"));
 
-		// Verifica che l'utente possa cancellare solo la propria prenotazione
 		if (!prenotazione.getUtente().getUsername().equals(username)) {
 			throw new AccessDeniedException("Non hai il permesso di cancellare questa prenotazione");
 		}
 
-		// Ripristina i posti disponibili
 		Evento evento = prenotazione.getEvento();
 		evento.setPostiDisponibili(evento.getPostiDisponibili() + 1);
 		eventoRepository.save(evento);
 
-		// Elimina la prenotazione
 		prenotazioneRepository.delete(prenotazione);
 	}
+
+
 }

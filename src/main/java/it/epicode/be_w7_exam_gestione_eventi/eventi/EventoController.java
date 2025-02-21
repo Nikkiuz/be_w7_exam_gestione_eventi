@@ -3,6 +3,7 @@ package it.epicode.be_w7_exam_gestione_eventi.eventi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -15,6 +16,7 @@ public class EventoController {
 	private final EventoService eventoService;
 
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_ORGANIZER')")
 	public ResponseEntity<Evento> createEvent(@RequestBody EventoRequest eventoRequest, Authentication authentication) {
 		String organizerUsername = authentication.getName();
 		Evento createdEvent = eventoService.createEvent(eventoRequest, organizerUsername);
@@ -28,7 +30,9 @@ public class EventoController {
 		return ResponseEntity.ok(updatedEvent);
 	}
 
+
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ORGANIZER')")
 	public ResponseEntity<Void> deleteEvent(@PathVariable Long id, Authentication authentication) {
 		String organizerUsername = authentication.getName();
 		eventoService.deleteEvent(id, organizerUsername);
