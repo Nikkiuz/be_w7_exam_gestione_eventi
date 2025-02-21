@@ -1,7 +1,7 @@
 package it.epicode.be_w7_exam_gestione_eventi.auth;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import it.epicode.BE_W6_Exam.exceptions.JwtTokenMissingException;
+import it.epicode.be_w7_exam_gestione_eventi.exceptions.JwtTokenMissingException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
