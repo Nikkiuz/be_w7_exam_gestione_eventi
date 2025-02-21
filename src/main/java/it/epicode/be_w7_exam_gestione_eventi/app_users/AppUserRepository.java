@@ -1,4 +1,4 @@
-package it.epicode.be_w7_exam_gestione_eventi.auth;
+package it.epicode.be_w7_exam_gestione_eventi.app_users;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

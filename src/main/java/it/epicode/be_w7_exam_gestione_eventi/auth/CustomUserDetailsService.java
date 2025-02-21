@@ -1,5 +1,7 @@
 package it.epicode.be_w7_exam_gestione_eventi.auth;
 
+import it.epicode.be_w7_exam_gestione_eventi.app_users.AppUser;
+import it.epicode.be_w7_exam_gestione_eventi.app_users.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
