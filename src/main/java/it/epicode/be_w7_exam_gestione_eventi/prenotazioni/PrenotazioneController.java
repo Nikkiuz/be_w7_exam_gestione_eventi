@@ -27,7 +27,6 @@ public class PrenotazioneController {
 	}
 
 	@GetMapping
-	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<List<PrenotazioneResponse>> getPrenotazioniUtente(Authentication authentication) {
 		String username = authentication.getName();
 
