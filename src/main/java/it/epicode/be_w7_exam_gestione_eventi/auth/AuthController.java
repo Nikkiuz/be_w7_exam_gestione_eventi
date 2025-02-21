@@ -1,5 +1,7 @@
 package it.epicode.be_w7_exam_gestione_eventi.auth;
 
+import it.epicode.be_w7_exam_gestione_eventi.app_users.AppUserService;
+import it.epicode.be_w7_exam_gestione_eventi.app_users.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,7 @@ public class AuthController {
         appUserService.registerUser(
                 registerRequest.getUsername(),
                 registerRequest.getPassword(),
-                Set.of(Role.ROLE_ADMIN) // Assegna il ruolo di default
+                Set.of(Role.ROLE_USER) // Assegna il ruolo di default
         );
         return ResponseEntity.ok("Registrazione avvenuta con successo");
     }
